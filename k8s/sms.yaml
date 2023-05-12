@@ -31,7 +31,7 @@ spec:
             - containerPort: 8085
           volumeMounts:
             - name: jar-persistent-storage
-              mountPath: /app/sms.jar
+              mountPath: /app/jar/file
               subPath: sms.jar
           env:
             - name: SPRING_DATASOURCE_URL
