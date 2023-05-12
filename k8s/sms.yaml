@@ -13,7 +13,7 @@ spec:
         app: sms-app
     spec:
       containers:
-        - name: mysql_container
+        - name: mysql-container
           image: mysql:latest
           env:
             - name: MYSQL_ROOT_PASSWORD
