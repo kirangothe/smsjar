@@ -33,19 +33,19 @@ spec:
             - name: jar-persistent-storage
               mountPath: /app/jar/file
               subPath: sms.jar
-          env:
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql-container:3306/sms?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-            - name: SPRING_DATASOURCE_USERNAME
-              value: root
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: kiran
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
-              value: org.hibernate.dialect.MySQL8Dialect
-            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
-              value: update
-            - name: SPRING_LOGGING_LEVEL_ORG_HIBERNATE_SQL
-              value: DEBUG
+          # env:
+          #   - name: SPRING_DATASOURCE_URL
+          #     value: jdbc:mysql://localhost:3306/sms?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+          #   - name: SPRING_DATASOURCE_USERNAME
+          #     value: root
+          #   - name: SPRING_DATASOURCE_PASSWORD
+          #     value: kiran
+          #   - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+          #     value: org.hibernate.dialect.MySQL8Dialect
+          #   - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+          #     value: update
+          #   - name: SPRING_LOGGING_LEVEL_ORG_HIBERNATE_SQL
+          #     value: DEBUG
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
