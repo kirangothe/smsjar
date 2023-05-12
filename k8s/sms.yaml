@@ -13,7 +13,7 @@ spec:
         app: sms-app
     spec:
       containers:
-        - name: mysql
+        - name: mysql_container
           image: mysql:latest
           env:
             - name: MYSQL_ROOT_PASSWORD
@@ -35,7 +35,7 @@ spec:
               subPath: sms.jar
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql:3306/sms?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+              value: jdbc:mysql://mysql_container:3306/sms?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
             - name: SPRING_DATASOURCE_USERNAME
               value: root
             - name: SPRING_DATASOURCE_PASSWORD
