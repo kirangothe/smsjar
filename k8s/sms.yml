@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sms-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sms-app
+  template:
+    metadata:
+      labels:
+        app: sms-app
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: kiran
+            - name: MYSQL_DATABASE
+              value: sms
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+            - name: backup-config
+              mountPath: /docker-entrypoint-initdb.d/backup.sql
+        - name: sms-app
+          image: kirangothe/springboot-mysql-sms:latest
+          ports:
+            - containerPort: 8085
+          volumeMounts:
+            - name: jar-persistent-storage
+              mountPath: /app/sms.jar
+              subPath: sms.jar
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/sms?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: kiran
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+              value: org.hibernate.dialect.MySQL8Dialect
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: update
+            - name: SPRING_LOGGING_LEVEL_ORG_HIBERNATE_SQL
+              value: DEBUG
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
+        - name: backup-config
+          hostPath:
+            path: /app/backup.sql
+        - name: jar-persistent-storage
+          persistentVolumeClaim:
+            claimName: jar-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sms-service
+spec:
+  selector:
+    app: sms-app
+  ports:
+    - protocol: TCP
+      port: 90
+      targetPort: 8085
+  type: LoadBalancer
