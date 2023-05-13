@@ -20,6 +20,8 @@ spec:
               value: kiran
             - name: MYSQL_DATABASE
               value: sms
+          ports:
+            - containerPort: 3306
           volumeMounts:
             - name: mysql-persistent-storage
               mountPath: /var/lib/mysql
@@ -33,19 +35,19 @@ spec:
             - name: jar-persistent-storage
               mountPath: /app/jar/file
               subPath: sms.jar
-          # env:
-          #   - name: SPRING_DATASOURCE_URL
-          #     value: jdbc:mysql://localhost:3306/sms?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-          #   - name: SPRING_DATASOURCE_USERNAME
-          #     value: root
-          #   - name: SPRING_DATASOURCE_PASSWORD
-          #     value: kiran
-          #   - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
-          #     value: org.hibernate.dialect.MySQL8Dialect
-          #   - name: SPRING_JPA_HIBERNATE_DDL_AUTO
-          #     value: update
-          #   - name: SPRING_LOGGING_LEVEL_ORG_HIBERNATE_SQL
-          #     value: DEBUG
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://localhost:3306/sms?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: kiran
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+              value: org.hibernate.dialect.MySQL8Dialect
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: update
+            - name: SPRING_LOGGING_LEVEL_ORG_HIBERNATE_SQL
+              value: DEBUG
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
@@ -68,4 +70,9 @@ spec:
     - protocol: TCP
       port: 90
       targetPort: 8085
+      name: http
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+      name: mysql
   type: LoadBalancer
