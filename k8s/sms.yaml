@@ -51,4 +51,3 @@ spec:
       targetPort: 8085
       nodePort: 30010
   type: NodePort
-  
