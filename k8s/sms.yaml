@@ -26,13 +26,7 @@ spec:
             - name: SPRING_DATASOURCE_USERNAME
               value: root
             - name: SPRING_DATASOURCE_PASSWORD
-              value: kiran
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
-              value: org.hibernate.dialect.MySQL8Dialect
-            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
-              value: update
-            - name: SPRING_LOGGING_LEVEL_ORG_HIBERNATE_SQL
-              value: DEBUG
+              value: kiran 
       volumes:
         - name: sms-persistent-storage
           persistentVolumeClaim:
