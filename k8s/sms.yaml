@@ -1,43 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sms-deployment
+  name: smsapp-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sms-app
+      app: smsapp-deployment
   template:
     metadata:
       labels:
-        app: sms-app
+        app: smsapp-deployment
     spec:
       containers:
-        - name: mysql-container
-          image: mysql:latest
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: kiran
-            - name: MYSQL_DATABASE
-              value: sms
-          ports:
-            - containerPort: 3306
-          volumeMounts:
-            - name: mysql-persistent-storage
-              mountPath: /var/lib/mysql
-            - name: backup-config
-              mountPath: /docker-entrypoint-initdb.d/backup.sql
-        - name: sms-app
+        - name: smsapp-container
           image: kirangothe/springboot-mysql-sms:latest
           ports:
             - containerPort: 8085
           volumeMounts:
-            - name: jar-persistent-storage
-              mountPath: /app/jar/file
-              subPath: sms.jar
+            - name: sms-persistent-storage
+              mountPath: /app
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://localhost:3306/sms?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+              value: jdbc:mysql://smsmysql-service:3306/sms?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
             - name: SPRING_DATASOURCE_USERNAME
               value: root
             - name: SPRING_DATASOURCE_PASSWORD
@@ -48,27 +33,22 @@ spec:
               value: update
             - name: SPRING_LOGGING_LEVEL_ORG_HIBERNATE_SQL
               value: DEBUG
-      volumes:
-        - name: mysql-persistent-storage
-          persistentVolumeClaim:
-            claimName: smsmysql-pv-claim
-        - name: backup-config
-          hostPath:
-            path: /app/backup.sql
-        - name: jar-persistent-storage
-          persistentVolumeClaim:
-            claimName: jar-pv-claim
+  volumes:
+    - name: sms-persistent-storage
+      persistentVolumeClaim:
+        claimName: jar-pv-claim
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: sms-service
+  name: smsapp-service
 spec:
   selector:
-    app: sms-app
+    app: smsapp-deployment
   ports:
     - protocol: TCP
       port: 8085
       targetPort: 8085
-      nodePort: 30100   
+      nodePort: 30010
   type: NodePort
+  

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smsmysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smsmysql-app
+  template:
+    metadata:
+      labels:
+        app: smsmysql-app
+    spec:
+      containers:
+        - name: mysql-container
+          image: mysql:latest
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: kiran
+            - name: MYSQL_DATABASE
+              value: sms
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: smsmysql-persistent-storage
+              mountPath: /var/lib/mysql
+  volumes:
+    - name: smsmysql-persistent-storage
+      persistentVolumeClaim:
+        claimName: smsmysql-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smsmysql-service
+spec:
+  selector:
+    app: smsmysql-app
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
