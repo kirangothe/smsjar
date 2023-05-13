@@ -24,11 +24,20 @@ spec:
             - containerPort: 3306
           volumeMounts:
             - name: smsmysql-persistent-storage
-              mountPath: /var/lib/mysql
-  volumes:
-    - name: smsmysql-persistent-storage
-      persistentVolumeClaim:
-        claimName: smsmysql-pvc
+              mountPath: /var/lib/mysql 
+          initContainers:
+          - name: restore-data
+            image: mysql:latest
+            command: ["sh", "-c", "cp /app/backup.sql /docker-entrypoint-initdb.d/backup.sql"]
+            volumeMounts:
+              - name: backup-config
+                mountPath: /app
+          volumes:
+            - name: smsmysql-persistent-storage
+              persistentVolumeClaim:
+                claimName: smsmysql-pvc
+            - name: backup-config
+              emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
