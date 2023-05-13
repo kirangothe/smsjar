@@ -68,11 +68,7 @@ spec:
     app: sms-app
   ports:
     - protocol: TCP
-      port: 90
+      port: 8085
       targetPort: 8085
-      name: http
-    - protocol: TCP
-      port: 3306
-      targetPort: 3306
-      name: mysql
-  type: LoadBalancer
+      nodePort: 30100   
+  type: NodePort
