@@ -33,10 +33,10 @@ spec:
               value: update
             - name: SPRING_LOGGING_LEVEL_ORG_HIBERNATE_SQL
               value: DEBUG
-  volumes:
-    - name: sms-persistent-storage
-      persistentVolumeClaim:
-        claimName: jar-pv-claim
+      volumes:
+        - name: sms-persistent-storage
+          persistentVolumeClaim:
+            claimName: jar-pv-claim
 ---
 apiVersion: v1
 kind: Service
