@@ -1,4 +1,4 @@
 FROM openjdk:17-jdk-slim
-COPY . /app/
+COPY sms.jar /app/sms.jar
 WORKDIR /app
 CMD ["java", "-jar", "sms.jar"]
