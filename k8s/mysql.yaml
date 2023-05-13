@@ -35,7 +35,7 @@ spec:
       volumes:
         - name: smsmysql-persistent-storage
           persistentVolumeClaim:
-            claimName: smsmysql-pvc
+            claimName: smsmysql-pv-claim
         - name: backup-config
           emptyDir: {}
 ---
