@@ -22,7 +22,7 @@ spec:
               mountPath: /app
           env:
             - name: DB_HOST
-              value: 10.104.100.222
+              value: 10.104.100.222:3306
             - name: DB_USERNAME
               value: root
             - name: DB_PASSWORD
