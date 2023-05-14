@@ -12,13 +12,13 @@ spec:
       labels:
         app: smsmysql-app
     spec:
-      # initContainers:
-      # - name: restore-data
-      #   image: mysql:latest
-      #   command: ["sh", "-c", "cp /app/backup.sql /docker-entrypoint-initdb.d/backup.sql"]
-      #   volumeMounts:
-      #     - name: app-hostpath
-      #       mountPath: /app
+      initContainers:
+        - name: clear-data
+          image: mysql:8.0.33
+          command: ["sh", "-c", "rm -rf /var/lib/mysql/*"]
+          volumeMounts:
+            - name: smsmysql-persistent-storage
+              mountPath: /var/lib/mysql
       containers:
         - name: mysql-container
           image: mysql:8.0.33
@@ -27,20 +27,19 @@ spec:
               value: kiran
             - name: MYSQL_DATABASE
               value: sms
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "true"
+            - name: MYSQL_RANDOM_ROOT_PASSWORD
+              value: "true"
           ports:
             - containerPort: 3306
           volumeMounts:
             - name: smsmysql-persistent-storage
-              mountPath: /var/lib/mysql 
-            # - name: app-hostpath
-            #   mountPath: /app
+              mountPath: /var/lib/mysql
       volumes:
         - name: smsmysql-persistent-storage
           persistentVolumeClaim:
             claimName: smsmysql-pv-claim
-        # - name: app-hostpath
-        #   hostPath:
-        #     path: /app 
 ---
 apiVersion: v1
 kind: Service
@@ -53,4 +52,3 @@ spec:
     - protocol: TCP
       port: 3306
       targetPort: 3306
-  clusterIP: None 

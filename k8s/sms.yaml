@@ -18,23 +18,16 @@ spec:
         - name: smsapp-container
           image: kirangothe/springboot-mysql-sms:latest
           ports:
-            - containerPort: 8085
-          volumeMounts:
-            - name: sms-persistent-storage
-              mountPath: /app
+            - containerPort: 8085 
           env:
             - name: DB_HOST
-              value: 10.104.100.222:3306
+              value: smsmysql-service
             - name: DB_USERNAME
               value: root
             - name: DB_PASSWORD
               value: kiran 
             - name: DB_NAME
-              value: sms 
-      volumes:
-        - name: sms-persistent-storage
-          persistentVolumeClaim:
-            claimName: jar-pv-claim
+              value: sms  
 ---
 apiVersion: v1
 kind: Service
