@@ -12,13 +12,13 @@ spec:
       labels:
         app: smsmysql-app
     spec:
-      initContainers:
-      - name: restore-data
-        image: mysql:latest
-        command: ["sh", "-c", "cp /app/backup.sql /docker-entrypoint-initdb.d/backup.sql"]
-        volumeMounts:
-          - name: app-hostpath
-            mountPath: /app
+      # initContainers:
+      # - name: restore-data
+      #   image: mysql:latest
+      #   command: ["sh", "-c", "cp /app/backup.sql /docker-entrypoint-initdb.d/backup.sql"]
+      #   volumeMounts:
+      #     - name: app-hostpath
+      #       mountPath: /app
       containers:
         - name: mysql-container
           image: mysql:latest
@@ -38,9 +38,9 @@ spec:
         - name: smsmysql-persistent-storage
           persistentVolumeClaim:
             claimName: smsmysql-pv-claim
-        - name: app-hostpath
-          hostPath:
-            path: /app 
+        # - name: app-hostpath
+        #   hostPath:
+        #     path: /app 
 ---
 apiVersion: v1
 kind: Service
