@@ -32,8 +32,8 @@ spec:
           volumeMounts:
             - name: smsmysql-persistent-storage
               mountPath: /var/lib/mysql 
-            - name: app-hostpath
-              mountPath: /app
+            # - name: app-hostpath
+            #   mountPath: /app
       volumes:
         - name: smsmysql-persistent-storage
           persistentVolumeClaim:
