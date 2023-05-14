@@ -31,6 +31,8 @@ spec:
               value: "true"
             - name: MYSQL_RANDOM_ROOT_PASSWORD
               value: "true"
+            - name: MYSQL_OPTS
+              value: "--bind-address=0.0.0.0"
           ports:
             - containerPort: 3306
           volumeMounts:
