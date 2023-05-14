@@ -21,7 +21,7 @@ spec:
       #       mountPath: /app
       containers:
         - name: mysql-container
-          image: mysql:latest
+          image: mysql:8.0.33
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: kiran
