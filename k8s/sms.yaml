@@ -21,12 +21,14 @@ spec:
             - name: sms-persistent-storage
               mountPath: /app
           env:
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://smsmysql-service:3306/sms?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-            - name: SPRING_DATASOURCE_USERNAME
+            - name: DB_HOST
+              value: smsmysql-service
+            - name: DB_USERNAME
               value: root
-            - name: SPRING_DATASOURCE_PASSWORD
+            - name: DB_PASSWORD
               value: kiran 
+            - name: DB_NAME
+              value: sms 
       volumes:
         - name: sms-persistent-storage
           persistentVolumeClaim:
