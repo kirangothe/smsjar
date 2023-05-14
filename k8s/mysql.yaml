@@ -32,12 +32,15 @@ spec:
           volumeMounts:
             - name: smsmysql-persistent-storage
               mountPath: /var/lib/mysql 
+            - name: app-hostpath
+              mountPath: /app
       volumes:
         - name: smsmysql-persistent-storage
           persistentVolumeClaim:
             claimName: smsmysql-pv-claim
-        - name: backup-config
-          emptyDir: {}
+        - name: app-hostpath
+          hostPath:
+            path: /app  # Replace with the actual path to the 'app' folder on the host machine
 ---
 apiVersion: v1
 kind: Service
