@@ -27,10 +27,10 @@ spec:
               value: kiran
             - name: MYSQL_DATABASE
               value: sms
-            - name: MYSQL_ALLOW_EMPTY_PASSWORD
-              value: "true"
-            - name: MYSQL_RANDOM_ROOT_PASSWORD
-              value: "true"
+            # - name: MYSQL_ALLOW_EMPTY_PASSWORD
+            #   value: "true"
+            # - name: MYSQL_RANDOM_ROOT_PASSWORD
+            #   value: "true"
             - name: MYSQL_OPTS
               value: "--bind-address=0.0.0.0"
           ports:
