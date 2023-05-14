@@ -17,7 +17,7 @@ spec:
         image: mysql:latest
         command: ["sh", "-c", "cp /app/backup.sql /docker-entrypoint-initdb.d/backup.sql"]
         volumeMounts:
-          - name: backup-config
+          - name: app-hostpath
             mountPath: /app
       containers:
         - name: mysql-container
@@ -40,7 +40,7 @@ spec:
             claimName: smsmysql-pv-claim
         - name: app-hostpath
           hostPath:
-            path: /app  # Replace with the actual path to the 'app' folder on the host machine
+            path: /app 
 ---
 apiVersion: v1
 kind: Service
