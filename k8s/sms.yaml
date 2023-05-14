@@ -7,6 +7,8 @@ spec:
   selector:
     matchLabels:
       app: smsapp-deployment
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
